@@ -632,7 +632,7 @@
                 document.getElementById('q-text').innerText = `กิจกรรม: ${q.text}`;
                 document.getElementById('game-score').innerText = this.score;
                 
-                // Smart Image Fallback mechanism (handles both filename formats)
+                // Smart Image Fallback mechanism
                 const imgPath = q.image;
                 const altPath = imgPath.includes('_0.jpg') ? imgPath.replace('_0.jpg', '.jpg') : imgPath.replace('.jpg', '_0.jpg');
                 const placeholderUrl = `https://placehold.co/600x450/dcfce7/15803d?text=${encodeURIComponent(q.text)}`;
