@@ -285,68 +285,18 @@
 
         const soundManager = new AudioSynthManager();
 
-        // 10 Questions matched precisely with uploaded images & text
+        // 10 Questions matched precisely with uploaded images
         const gameQuestions = [
-            {
-                id: 1,
-                text: "การปล่อยสัตว์ป่าคืนสู่ธรรมชาติ",
-                answer: "conserve",
-                image: "S__23625740_0.jpg"
-            },
-            {
-                id: 2,
-                text: "การจับปลาในฤดูวางไข่",
-                answer: "destroy",
-                image: "S__23625733_0.jpg"
-            },
-            {
-                id: 3,
-                text: "การนำลูกปลาทูมาตากแห้ง",
-                answer: "destroy",
-                image: "S__23625738_0.jpg"
-            },
-            {
-                id: 4,
-                text: "การทิ้งขยะให้ถูกที่",
-                answer: "conserve",
-                image: "S__23625732_0.jpg"
-            },
-            {
-                id: 5,
-                text: "การทิ้งขยะพลาสติกลงทะเล",
-                answer: "destroy",
-                image: "S__23625741_0.jpg"
-            },
-            {
-                id: 6,
-                text: "การเผาป่า",
-                answer: "destroy",
-                image: "S__23625739_0.jpg"
-            },
-            {
-                id: 7,
-                text: "การทิ้งขยะพลาสติกลงแม่น้ำ",
-                answer: "destroy",
-                image: "S__23625734_0.jpg"
-            },
-            {
-                id: 8,
-                text: "การตัดไม้ทำลายป่า",
-                answer: "destroy",
-                image: "S__23625737_0.jpg"
-            },
-            {
-                id: 9,
-                text: "การปลูกต้นไม้",
-                answer: "conserve",
-                image: "S__23625736_0.jpg"
-            },
-            {
-                id: 10,
-                text: "การนำลูกอ๊อดมาทำอาหาร",
-                answer: "destroy",
-                image: "S__23625735_0.jpg"
-            }
+            { id: 1, text: "การปล่อยสัตว์ป่าคืนสู่ธรรมชาติ", answer: "conserve", image: "S__23625740_0.jpg" },
+            { id: 2, text: "การจับปลาในฤดูวางไข่", answer: "destroy", image: "S__23625733_0.jpg" },
+            { id: 3, text: "การนำลูกปลาทูมาตากแห้ง", answer: "destroy", image: "S__23625738_0.jpg" },
+            { id: 4, text: "การทิ้งขยะให้ถูกที่", answer: "conserve", image: "S__23625732_0.jpg" },
+            { id: 5, text: "การทิ้งขยะพลาสติกลงทะเล", answer: "destroy", image: "S__23625741_0.jpg" },
+            { id: 6, text: "การเผาป่า", answer: "destroy", image: "S__23625739_0.jpg" },
+            { id: 7, text: "การทิ้งขยะพลาสติกลงแม่น้ำ", answer: "destroy", image: "S__23625734_0.jpg" },
+            { id: 8, text: "การตัดไม้ทำลายป่า", answer: "destroy", image: "S__23625737_0.jpg" },
+            { id: 9, text: "การปลูกต้นไม้", answer: "conserve", image: "S__23625736_0.jpg" },
+            { id: 10, text: "การนำลูกอ๊อดมาทำอาหาร", answer: "destroy", image: "S__23625735_0.jpg" }
         ];
 
         class ConfettiManager {
@@ -562,11 +512,7 @@
                 
                 try {
                     this.mediaStream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            width: { ideal: 640 },
-                            height: { ideal: 480 },
-                            facingMode: 'user'
-                        },
+                        video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' },
                         audio: false
                     });
                     
@@ -632,16 +578,44 @@
                 document.getElementById('q-text').innerText = `กิจกรรม: ${q.text}`;
                 document.getElementById('game-score').innerText = this.score;
                 
-                // Smart Image Fallback mechanism
-                const imgPath = q.image;
-                const altPath = imgPath.includes('_0.jpg') ? imgPath.replace('_0.jpg', '.jpg') : imgPath.replace('.jpg', '_0.jpg');
-                const placeholderUrl = `https://placehold.co/600x450/dcfce7/15803d?text=${encodeURIComponent(q.text)}`;
+                // ---------------------------------------------------------
+                // 🚀 ระบบค้นหารูปภาพอัตโนมัติ (แก้ปัญหา GitHub ไม่เจอไฟล์)
+                // ---------------------------------------------------------
+                const imgPathsToTry = [
+                    q.image,                                     // 1. แบบปกติ: S__23625740_0.jpg
+                    q.image.replace('.jpg', '.JPG'),             // 2. เผื่อไฟล์เป็น .JPG พิมพ์ใหญ่
+                    q.image.toLowerCase(),                       // 3. เผื่อไฟล์พิมพ์เล็กทั้งหมด
+                    'images/' + q.image,                         // 4. เผื่อคุณเผลอสร้างโฟลเดอร์ images/
+                    'images/' + q.image.replace('.jpg', '.JPG'), // 5. ในโฟลเดอร์ images/ แบบพิมพ์ใหญ่
+                    'assets/' + q.image,                         // 6. เผื่อคุณสร้างโฟลเดอร์ assets/
+                    q.image.replace('_0.jpg', '.jpg'),           // 7. เผื่อชื่อไฟล์ไม่มี _0
+                    q.image.replace('_0.jpg', '.JPG')            // 8. เผื่อไม่มี _0 และเป็นพิมพ์ใหญ่
+                ];
 
-                document.getElementById('scenario-graphic').innerHTML = `
-                    <img src="${imgPath}" alt="${q.text}" 
-                         class="w-full h-full object-cover rounded-xl transition-all duration-300" 
-                         onerror="if (!this.getAttribute('data-tried-alt')) { this.setAttribute('data-tried-alt', 'true'); this.src='${altPath}'; } else { this.onerror=null; this.src='${placeholderUrl}'; }">
-                `;
+                const container = document.getElementById('scenario-graphic');
+                container.innerHTML = ''; // เคลียร์กล่องรูปภาพ
+                
+                const imgEl = document.createElement('img');
+                imgEl.className = "w-full h-full object-cover rounded-xl transition-all duration-300";
+                imgEl.alt = q.text;
+                
+                let attempt = 0;
+                imgEl.onerror = () => {
+                    attempt++;
+                    if (attempt < imgPathsToTry.length) {
+                        // ถ้าภาพพัง ให้ลองดึงจาก path รูปแบบอื่นแทน
+                        imgEl.src = imgPathsToTry[attempt];
+                    } else {
+                        // ถ้าหาจากทุกแบบแล้วไม่เจอจริงๆ จะโชว์ป้ายบอกให้รู้ว่าต้องแก้ไฟล์ไหน
+                        imgEl.onerror = null;
+                        imgEl.src = `https://placehold.co/600x450/fef2f2/b91c1c?text=${encodeURIComponent('ไม่พบไฟล์รูปภาพ\\nต้องอัปโหลดไฟล์ชื่อ:\\n' + q.image)}`;
+                    }
+                };
+                
+                // เริ่มโหลดรูปจาก Path แรก
+                imgEl.src = imgPathsToTry[0];
+                container.appendChild(imgEl);
+                // ---------------------------------------------------------
 
                 const percent = ((q.id) / 10) * 100;
                 document.getElementById('q-progress-bar').style.width = `${percent}%`;
