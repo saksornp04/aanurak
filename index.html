@@ -21,7 +21,6 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        /* Custom bounce animation for elements */
         .bubble-hover {
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -31,26 +30,20 @@
         .bubble-hover:active {
             transform: scale(0.98);
         }
-        /* Glassmorphism styles */
         .glass-card {
             background: rgba(255, 255, 255, 0.93);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 2px solid rgba(255, 255, 255, 0.7);
         }
-        /* Mirrored video preview container */
         .mirrored {
             transform: scaleX(-1);
         }
-        /* Beautiful retro game shadows */
         .retro-shadow-green {
             box-shadow: 0 8px 0 0 #15803d;
         }
         .retro-shadow-red {
             box-shadow: 0 8px 0 0 #b91c1c;
-        }
-        .retro-shadow-blue {
-            box-shadow: 0 8px 0 0 #1d4ed8;
         }
     </style>
 </head>
@@ -71,7 +64,6 @@
         <!-- Loading Screen -->
         <div id="loading-screen" class="fixed inset-0 bg-gradient-to-br from-green-400 to-blue-500 z-50 flex flex-col items-center justify-center p-6 text-white text-center">
             <div class="relative w-32 h-32 mb-6">
-                <!-- Sprouting seedling animation -->
                 <div class="absolute inset-0 rounded-full border-4 border-dashed border-white animate-spin opacity-50"></div>
                 <div class="absolute inset-0 flex items-center justify-center text-6xl">🌱</div>
             </div>
@@ -82,9 +74,8 @@
             </div>
         </div>
 
-        <!-- ==================== SCREEN 1: START SCREEN ==================== -->
+        <!-- SCREEN 1: START SCREEN -->
         <div id="start-screen" class="w-full flex flex-col items-center text-center p-6 sm:p-10 rounded-3xl glass-card shadow-2xl border-4 border-white bubble-hover max-w-2xl relative overflow-hidden my-4">
-            <!-- Decorative nature patterns -->
             <div class="absolute -top-12 -left-12 text-6xl opacity-20 select-none animate-bounce">🌳</div>
             <div class="absolute -bottom-10 -right-10 text-7xl opacity-20 select-none animate-bounce delay-1000">🐳</div>
             <div class="absolute top-8 right-8 text-5xl opacity-20 select-none animate-pulse">🌸</div>
@@ -100,7 +91,6 @@
                 <span class="text-green-600 font-bold">กางมือ 🖐️</span> เลื่อนเป้าชี้ และ <span class="text-orange-600 font-bold">กำมือ ✊</span> บนรูปภาพข้อความเพื่อเลือกคำตอบที่ถูกต้อง
             </p>
 
-            <!-- Mode selector / Settings -->
             <div class="w-full bg-white/70 p-4 rounded-2xl mb-6 border border-white/80 flex flex-col gap-3">
                 <h3 class="font-bold text-gray-800 text-sm sm:text-base flex items-center justify-center gap-2">
                     <i class="fa-solid fa-gear text-green-600"></i> เลือกอุปกรณ์และโหมดการเล่น
@@ -115,7 +105,6 @@
                         <span class="text-sm">หน้าจอสัมผัส/เมาส์</span>
                     </button>
                 </div>
-                <p id="mode-desc" class="text-xs text-gray-500 italic mt-1">แนะนำเล่นผ่านโหมดกล้องบน iPad หรือโน๊ตบุ๊ค เพื่อความสนุกและท้าทายในการขยับร่างกาย!</p>
             </div>
 
             <button id="btn-start" class="w-full sm:w-auto px-12 py-4 bg-green-500 hover:bg-green-600 text-white font-extrabold text-xl sm:text-2xl rounded-2xl bubble-hover transition-all duration-300 retro-shadow-green border-2 border-white mb-2">
@@ -123,49 +112,35 @@
             </button>
         </div>
 
-        <!-- ==================== SCREEN 2: GAMEPLAY CONTAINER ==================== -->
+        <!-- SCREEN 2: GAMEPLAY CONTAINER -->
         <div id="game-screen" class="hidden w-full flex flex-col lg:flex-row gap-6 items-stretch justify-center relative">
             
-            <!-- LEFT PANEL: CAMERA VIEWPORT OR TOUCH PAD -->
             <div class="flex-1 flex flex-col items-center bg-black/95 rounded-3xl overflow-hidden relative border-4 border-white shadow-2xl min-h-[400px] sm:min-h-[500px]">
-                
-                <!-- Mirror Web Camera Feed -->
                 <video id="webcam" class="hidden" autoplay playsinline></video>
-                
-                <!-- Main AR Canvas Rendering -->
                 <canvas id="ar-canvas" class="w-full h-full object-cover min-h-[400px] sm:min-h-[500px] absolute inset-0 z-0 mirrored"></canvas>
                 
-                <!-- Overlay Elements on AR Canvas -->
                 <div class="absolute inset-0 z-10 flex flex-col justify-between p-4 pointer-events-none">
-                    
-                    <!-- HUD Status Bars -->
                     <div class="flex justify-between items-center w-full">
-                        <!-- Score Display -->
                         <div class="flex items-center gap-2 bg-black/70 backdrop-blur text-white px-4 py-2 rounded-full border border-white/20">
                             <span class="text-xl">⭐</span>
                             <span class="font-bold text-sm sm:text-base">คะแนน: <span id="game-score" class="text-yellow-300 text-lg sm:text-xl">0</span></span>
                         </div>
                         
-                        <!-- Controller / Settings Toggle Bar -->
                         <div class="flex gap-2 pointer-events-auto">
-                            <!-- Toggle Mute -->
                             <button id="btn-toggle-sound" class="w-10 h-10 rounded-full bg-black/70 hover:bg-black/95 backdrop-blur text-white flex items-center justify-center border border-white/20 transition-all">
                                 <i id="sound-icon" class="fa-solid fa-volume-high"></i>
                             </button>
-                            <!-- Switch Mode Midgame -->
                             <button id="btn-toggle-mode" class="px-3 h-10 rounded-full bg-black/70 hover:bg-black/95 backdrop-blur text-white flex items-center justify-center gap-1 border border-white/20 transition-all text-xs font-bold">
                                 <i class="fa-solid fa-rotate"></i> <span id="btn-mode-text">ใช้เมาส์แทน</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- AR Instruction Banner -->
                     <div id="ar-gesture-banner" class="w-full bg-yellow-400/95 text-yellow-950 px-4 py-3 rounded-2xl text-center text-xs sm:text-sm font-bold shadow-lg border-2 border-yellow-500 animate-pulse">
                         🖐️ กางมือเลื่อนเป้ากลมชี้คำตอบที่ต้องการค้างไว้ &nbsp;|&nbsp; ✊ กำมือเมื่อต้องการส่งคำตอบทันที!
                     </div>
                 </div>
 
-                <!-- Touch Fallback Layer (Active when camera is off or disabled) -->
                 <div id="touch-fallback-overlay" class="absolute inset-0 bg-gradient-to-tr from-sky-400 to-indigo-600 flex flex-col items-center justify-center p-6 text-white text-center hidden z-20">
                     <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center text-4xl mb-4 animate-bounce">📱</div>
                     <h3 class="text-2xl font-bold mb-2">โหมดหน้าจอสัมผัส / เมาส์</h3>
@@ -173,16 +148,13 @@
                 </div>
             </div>
 
-            <!-- RIGHT PANEL: QUESTION PANEL & SCENARIO DISPLAY -->
+            <!-- RIGHT PANEL: QUESTION PANEL -->
             <div class="w-full lg:w-[480px] flex flex-col justify-between gap-4 p-4 sm:p-6 rounded-3xl glass-card shadow-2xl border-4 border-white">
-                
-                <!-- Current Progress Header -->
-                <div class="w-full">
+                <div>
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-xs uppercase font-extrabold text-green-700 tracking-wider">นักอนุรักษ์ธรรมชาติ</span>
                         <span class="text-xs font-extrabold text-blue-600 bg-blue-100 px-3 py-1 rounded-full"><span id="q-index">1</span> จาก 10 ข้อ</span>
                     </div>
-                    <!-- Question progress bar -->
                     <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden mb-4">
                         <div id="q-progress-bar" class="h-full bg-gradient-to-r from-green-400 to-blue-500 w-1/10 transition-all duration-300"></div>
                     </div>
@@ -190,19 +162,15 @@
 
                 <!-- Scenario Card -->
                 <div class="flex-1 flex flex-col items-stretch justify-start bg-white/90 rounded-2xl p-2 border border-white shadow-inner mb-2 relative min-h-[340px]">
-                    <!-- Scenario Title / Question -->
                     <h2 id="q-text" class="text-base sm:text-lg font-black text-gray-800 text-center leading-snug p-2 mb-1">...</h2>
                     
-                    <!-- Image Graphic Holder (Perfect responsive container for display) -->
                     <div id="scenario-graphic" class="w-full h-64 sm:h-72 flex items-center justify-center relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-inner">
-                        <!-- Loaded dynamically via JavaScript using direct filenames S__23625732.jpg to S__23625741.jpg -->
+                        <!-- Loaded dynamically via JavaScript -->
                     </div>
                 </div>
 
-                <!-- Answer Boxes (Interactable buttons as requested) -->
+                <!-- Answer Buttons -->
                 <div class="grid grid-cols-1 gap-3 sm:gap-4 w-full">
-                    
-                    <!-- Target 1: ทำลายชีวิตสัตว์ -->
                     <button id="target-destroy" class="option-btn w-full p-4 rounded-2xl text-white font-black text-lg sm:text-xl flex items-center justify-between transition-all duration-200 bg-red-500 hover:bg-red-600 retro-shadow-red border-2 border-white relative overflow-hidden">
                         <span class="flex items-center gap-3">
                             <span class="text-2xl">🔥</span> ทำลายชีวิตสัตว์
@@ -210,7 +178,6 @@
                         <i class="fa-solid fa-circle-xmark text-2xl opacity-90"></i>
                     </button>
                     
-                    <!-- Target 2: อนุรักษ์ชีวิตสัตว์ -->
                     <button id="target-conserve" class="option-btn w-full p-4 rounded-2xl text-white font-black text-lg sm:text-xl flex items-center justify-between transition-all duration-200 bg-green-500 hover:bg-green-600 retro-shadow-green border-2 border-white relative overflow-hidden">
                         <span class="flex items-center gap-3">
                             <span class="text-2xl">🌱</span> อนุรักษ์ชีวิตสัตว์
@@ -221,22 +188,18 @@
             </div>
         </div>
 
-        <!-- ==================== SCREEN 3: GAME SUMMARY SCREEN ==================== -->
+        <!-- SCREEN 3: GAME SUMMARY SCREEN -->
         <div id="end-screen" class="hidden w-full max-w-xl text-center p-6 sm:p-8 rounded-3xl glass-card shadow-2xl border-4 border-white bubble-hover flex flex-col items-center">
-            
             <div id="trophy-holder" class="text-7xl mb-4 animate-bounce">🏆</div>
-            
             <h1 class="text-3xl font-extrabold text-blue-800 mb-2">เกมจบแล้วจ้า! 🎉</h1>
             <p class="text-gray-600 text-sm sm:text-base mb-6">คุณได้ช่วยเหลือสัตว์และธรรมชาติอย่างสุดความสามารถ!</p>
 
-            <!-- Score Summary Card -->
             <div class="w-full bg-white/80 rounded-2xl p-6 border border-white shadow-inner mb-6">
-                <div class="text-gray-500 text-xs font-semibold uppercase tracking-widest">คะแนนรวมของหนู</div>
+                <div class="text-gray-500 text-xs font-semibold uppercase tracking-widest">คะแนนรวมของคุณ</div>
                 <div class="text-6xl font-black text-yellow-500 my-2 drop-shadow-sm"><span id="final-score">0</span> / 10</div>
                 <div id="evaluation-text" class="text-base sm:text-lg font-bold text-green-700">เยี่ยมไปเลย! สมเป็นนักอนุรักษ์ตัวจริง!</div>
             </div>
 
-            <!-- Action buttons -->
             <button id="btn-restart" class="px-10 py-4 bg-gradient-to-r from-green-400 to-emerald-600 text-white font-extrabold text-lg sm:text-xl rounded-2xl bubble-hover retro-shadow-green border-2 border-white w-full sm:w-auto transition-all">
                 <i class="fa-solid fa-rotate-left mr-2"></i> เริ่มใหม่อีกครั้ง 🎮
             </button>
@@ -244,7 +207,6 @@
     </div>
 
     <script>
-        /* SOUND FX & SPEECH SYNTHESIS MANAGER */
         class AudioSynthManager {
             constructor() {
                 this.ctx = null;
@@ -262,7 +224,6 @@
                 return this.muted;
             }
 
-            // Speak Thai text with Web Speech Synthesis
             speakThai(text) {
                 if (this.muted) return;
                 try {
@@ -271,7 +232,7 @@
                         const utterance = new SpeechSynthesisUtterance(text);
                         utterance.lang = 'th-TH';
                         utterance.rate = 1.05;
-                        utterance.pitch = 1.15; // Slightly child-friendly high pitch
+                        utterance.pitch = 1.15;
                         window.speechSynthesis.speak(utterance);
                     }
                 } catch (e) {
@@ -279,84 +240,42 @@
                 }
             }
 
-            // Play applause sound & correct chime
             playCorrect() {
                 if (this.muted) return;
                 this.init();
                 const now = this.ctx.currentTime;
-                
-                // Speak positive reinforcement
                 this.speakThai("เก่งมากค่ะ ถูกต้องแล้ว");
 
-                // Happy chime notes
-                const notes = [261.63, 329.63, 392.00, 523.25, 659.25]; // C E G C E
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
                 notes.forEach((freq, idx) => {
                     const osc = this.ctx.createOscillator();
                     const gainNode = this.ctx.createGain();
-                    
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-                    
                     gainNode.gain.setValueAtTime(0, now + idx * 0.08);
                     gainNode.gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.02);
                     gainNode.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.35);
-                    
                     osc.connect(gainNode);
                     gainNode.connect(this.ctx.destination);
                     osc.start(now + idx * 0.08);
                     osc.stop(now + idx * 0.08 + 0.4);
                 });
-
-                // Synthesized Applause Sound
-                const bufferSize = this.ctx.sampleRate * 1.5;
-                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-
-                const noise = this.ctx.createBufferSource();
-                noise.buffer = buffer;
-
-                const filter = this.ctx.createBiquadFilter();
-                filter.type = 'bandpass';
-                filter.frequency.value = 1000;
-                filter.Q.value = 2.0;
-
-                const gain = this.ctx.createGain();
-                gain.gain.setValueAtTime(0, now);
-                gain.gain.linearRampToValueAtTime(0.15, now + 0.1);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
-
-                noise.connect(filter);
-                filter.connect(gain);
-                gain.connect(this.ctx.destination);
-                
-                noise.start(now);
-                noise.stop(now + 1.3);
             }
 
-            // Play incorrect warning sound & say "เอาใหม่ค่ะ"
             playIncorrect() {
                 if (this.muted) return;
                 this.init();
                 const now = this.ctx.currentTime;
-
-                // Speak "เอาใหม่ค่ะ"
                 this.speakThai("เอาใหม่ค่ะ");
 
-                // Cartoon boing sound slide
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
-                
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(220, now);
                 osc.frequency.exponentialRampToValueAtTime(120, now + 0.35);
-
                 gain.gain.setValueAtTime(0.2, now);
                 gain.gain.linearRampToValueAtTime(0.15, now + 0.1);
                 gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.4);
-
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
                 osc.start(now);
@@ -366,71 +285,70 @@
 
         const soundManager = new AudioSynthManager();
 
-        // Exactly mapping 10 questions to provided image attachment files
+        // 10 Questions matched precisely with uploaded images & text
         const gameQuestions = [
             {
                 id: 1,
-                text: "การปล่อยสัตว์คืนสู่ธรรมชาติ",
-                answer: "conserve", // อนุรักษ์ชีวิตสัตว์
-                image: "S__23625740.jpg"
+                text: "การปล่อยสัตว์ป่าคืนสู่ธรรมชาติ",
+                answer: "conserve",
+                image: "S__23625740_0.jpg"
             },
             {
                 id: 2,
                 text: "การจับปลาในฤดูวางไข่",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625733.jpg"
+                answer: "destroy",
+                image: "S__23625733_0.jpg"
             },
             {
                 id: 3,
                 text: "การนำลูกปลาทูมาตากแห้ง",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625738.jpg"
+                answer: "destroy",
+                image: "S__23625738_0.jpg"
             },
             {
                 id: 4,
                 text: "การทิ้งขยะให้ถูกที่",
-                answer: "conserve", // อนุรักษ์ชีวิตสัตว์
-                image: "S__23625732.jpg"
+                answer: "conserve",
+                image: "S__23625732_0.jpg"
             },
             {
                 id: 5,
                 text: "การทิ้งขยะพลาสติกลงทะเล",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625741.jpg"
+                answer: "destroy",
+                image: "S__23625741_0.jpg"
             },
             {
                 id: 6,
                 text: "การเผาป่า",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625739.jpg"
+                answer: "destroy",
+                image: "S__23625739_0.jpg"
             },
             {
                 id: 7,
                 text: "การทิ้งขยะพลาสติกลงแม่น้ำ",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625734.jpg"
+                answer: "destroy",
+                image: "S__23625734_0.jpg"
             },
             {
                 id: 8,
                 text: "การตัดไม้ทำลายป่า",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625737.jpg"
+                answer: "destroy",
+                image: "S__23625737_0.jpg"
             },
             {
                 id: 9,
                 text: "การปลูกต้นไม้",
-                answer: "conserve", // อนุรักษ์ชีวิตสัตว์
-                image: "S__23625736.jpg"
+                answer: "conserve",
+                image: "S__23625736_0.jpg"
             },
             {
                 id: 10,
                 text: "การนำลูกอ๊อดมาทำอาหาร",
-                answer: "destroy", // ทำลายชีวิตสัตว์
-                image: "S__23625735.jpg"
+                answer: "destroy",
+                image: "S__23625735_0.jpg"
             }
         ];
 
-        /* CONFETTI PARTICLE SYSTEM FOR REWARDS */
         class ConfettiManager {
             constructor(canvas) {
                 this.canvas = canvas;
@@ -465,7 +383,7 @@
                 this.particles.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
-                    p.vy += 0.35; // Gravity
+                    p.vy += 0.35;
                     p.rotation += p.rotationSpeed;
                     p.opacity -= 0.015;
 
@@ -491,24 +409,20 @@
             constructor() {
                 this.currentQuestionIdx = 0;
                 this.score = 0;
-                this.gameMode = 'ar'; // default mode 'ar' or 'touch'
+                this.gameMode = 'ar';
                 this.isPlaying = false;
                 
-                // Screen layout references
                 this.targetDestroyRect = null;
                 this.targetConserveRect = null;
 
-                // MediaPipe Hands states
                 this.handDetected = false;
                 this.handX = 0.5;
                 this.handY = 0.5;
-                this.handState = 'open'; // 'open' or 'fist'
+                this.handState = 'open';
                 this.prevHandState = 'open';
                 
-                // Tracking hovered items
                 this.hoveredOption = null; 
                 
-                // Elements references
                 this.webcam = document.getElementById('webcam');
                 this.arCanvas = document.getElementById('ar-canvas');
                 this.arCtx = this.arCanvas.getContext('2d');
@@ -540,7 +454,7 @@
                 const progressEl = document.getElementById('loading-progress');
                 
                 try {
-                    statusEl.innerText = "กำลังเชื่อมต่อโมเดลปัญญาประดิษฐ์ตรวจจับมือ (AI Hands)...";
+                    statusEl.innerText = "กำลังเชื่อมต่อโมเดลตรวจจับมือ (AI Hands)...";
                     progressEl.style.width = "50%";
 
                     this.mediaPipeHands = new Hands({
@@ -565,7 +479,7 @@
 
                 } catch (error) {
                     console.error("MediaPipe initialization failed:", error);
-                    statusEl.innerHTML = "<span class='text-red-300'>ตรวจพบบราวเซอร์ไม่รองรับกล้อง สลับมาเล่นโหมดสัมผัสให้คุณโดยอัตโนมัติค่ะ</span>";
+                    statusEl.innerHTML = "<span class='text-red-300'>สลับมาเล่นโหมดสัมผัสให้อัตโนมัติค่ะ</span>";
                     progressEl.style.backgroundColor = "#ef4444";
                     
                     this.setGameMode('touch');
@@ -576,7 +490,6 @@
             }
 
             bindDOMEvents() {
-                // Selector buttons
                 document.getElementById('btn-mode-ar').addEventListener('click', () => this.setGameMode('ar'));
                 document.getElementById('btn-mode-touch').addEventListener('click', () => this.setGameMode('touch'));
                 
@@ -593,14 +506,13 @@
                     const icon = document.getElementById('sound-icon');
                     if (isMuted) {
                         icon.className = 'fa-solid fa-volume-xmark';
-                        this.showAlert("🔊 ปิดเสียงเรียบร้อย", "ปิดการใช้งานเสียงพากย์และเสียงสังเคราะห์แล้วค่ะ", "🔈");
+                        this.showAlert("🔊 ปิดเสียงเรียบร้อย", "ปิดการใช้งานเสียงเรียบร้อยค่ะ", "🔈");
                     } else {
                         icon.className = 'fa-solid fa-volume-high';
-                        this.showAlert("🔊 เปิดเสียงแล้วจ้า", "เปิดระบบเสียงและเสียงพากย์ภาษาไทยแล้วค่ะ", "🔊");
+                        this.showAlert("🔊 เปิดเสียงแล้วจ้า", "เปิดระบบเสียงภาษาไทยแล้วค่ะ", "🔊");
                     }
                 });
 
-                // Clicks for direct answer selection
                 document.getElementById('target-destroy').addEventListener('click', () => {
                     if (this.gameMode === 'touch' || !this.handDetected) {
                         this.processUserAnswer('destroy');
@@ -665,7 +577,7 @@
                     };
                 } catch (error) {
                     console.error("Camera access failed:", error);
-                    this.showAlert("❌ กล้องเว็บแคมเข้าไม่ได้", "ไม่พบฮาร์ดแวร์กล้อง สลับมาใช้โหมดสัมผัสหน้าจอแทนนะคะ", "📱");
+                    this.showAlert("❌ สลับใช้โหมดสัมผัส", "ไม่พบกล้อง สลับมาใช้โหมดสัมผัสหน้าจอแทนนะคะ", "📱");
                     this.setGameMode('touch');
                 }
             }
@@ -720,14 +632,17 @@
                 document.getElementById('q-text').innerText = `กิจกรรม: ${q.text}`;
                 document.getElementById('game-score').innerText = this.score;
                 
-                // Show question image directly with local verbatim name, with a cute SVG placeholder if the image takes time to load
+                // Smart Image Fallback mechanism (handles both filename formats)
+                const imgPath = q.image;
+                const altPath = imgPath.includes('_0.jpg') ? imgPath.replace('_0.jpg', '.jpg') : imgPath.replace('.jpg', '_0.jpg');
                 const placeholderUrl = `https://placehold.co/600x450/dcfce7/15803d?text=${encodeURIComponent(q.text)}`;
 
                 document.getElementById('scenario-graphic').innerHTML = `
-                    <img src="${q.image}" alt="${q.text}" class="w-full h-full object-cover rounded-xl transition-all duration-300" onerror="this.onerror=null; this.src='${placeholderUrl}';">
+                    <img src="${imgPath}" alt="${q.text}" 
+                         class="w-full h-full object-cover rounded-xl transition-all duration-300" 
+                         onerror="if (!this.getAttribute('data-tried-alt')) { this.setAttribute('data-tried-alt', 'true'); this.src='${altPath}'; } else { this.onerror=null; this.src='${placeholderUrl}'; }">
                 `;
 
-                // Update Progress bar width
                 const percent = ((q.id) / 10) * 100;
                 document.getElementById('q-progress-bar').style.width = `${percent}%`;
 
@@ -766,7 +681,7 @@
                 const q = gameQuestions[this.currentQuestionIdx];
                 const isCorrect = q.answer === userChoice;
 
-                this.isPlaying = false; // Block inputs during reward/error showcase
+                this.isPlaying = false;
 
                 const btnTarget = userChoice === 'destroy' ? 
                     document.getElementById('target-destroy') : 
@@ -775,12 +690,12 @@
                 if (isCorrect) {
                     this.score++;
                     soundManager.playCorrect();
-                    this.confetti.spawn(); // Play celebration confetti
+                    this.confetti.spawn();
                     
                     btnTarget.classList.add('scale-105', 'ring-4', 'ring-yellow-400', 'shadow-2xl');
                     this.showAlert("🎉 เก่งมากเลยจ้า!", "คำตอบถูกต้อง ได้รับคะแนนสะสม 1 คะแนน", "🏆");
                 } else {
-                    soundManager.playIncorrect(); // Play boing sound and "เอาใหม่ค่ะ"
+                    soundManager.playIncorrect();
                     
                     btnTarget.classList.add('animate-pulse', 'ring-4', 'ring-red-500');
                     this.showAlert("❌ เอาใหม่นะคะ", "ทบทวนเรื่องนี้แล้วเลือกแนวทางที่ถูกต้องกันใหม่นะคนเก่ง", "🌿");
@@ -845,12 +760,10 @@
                 this.handDetected = true;
                 const landmarks = results.multiHandLandmarks[0];
 
-                // Track index finger tip (landmark 8)
                 const indexTip = landmarks[8];
                 this.handX = indexTip.x;
                 this.handY = indexTip.y;
 
-                // GESTURE CALCULATION (Open Hand vs Fist)
                 const mcpIndex = landmarks[5];
                 const mcpPinky = landmarks[17];
                 const handScale = Math.hypot(mcpIndex.x - mcpPinky.x, mcpIndex.y - mcpPinky.y);
@@ -931,7 +844,6 @@
                             btnC.classList.add('scale-105', 'bg-green-600');
                         }
 
-                        // Trigger option selected on Open (🖐️) to Fist (✊) hand gesture transition
                         if (currentlyHovered && this.prevHandState === 'open' && this.handState === 'fist') {
                             this.processUserAnswer(currentlyHovered);
                         }
@@ -948,7 +860,6 @@
             drawHandCursor(x, y) {
                 this.arCtx.save();
                 
-                // Outer ring
                 this.arCtx.beginPath();
                 this.arCtx.arc(x, y, 22, 0, 2 * Math.PI);
                 this.arCtx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
@@ -957,13 +868,11 @@
                 this.arCtx.shadowColor = this.handState === 'fist' ? '#f59e0b' : '#3b82f6';
                 this.arCtx.stroke();
 
-                // Inner dot
                 this.arCtx.beginPath();
                 this.arCtx.arc(x, y, 9, 0, 2 * Math.PI);
                 this.arCtx.fillStyle = this.handState === 'fist' ? '#f59e0b' : '#3b82f6';
                 this.arCtx.fill();
 
-                // Gesture emoji hint float
                 this.arCtx.font = "24px Arial";
                 this.arCtx.fillStyle = "#ffffff";
                 const icon = this.handState === 'fist' ? "✊" : "🖐️";
